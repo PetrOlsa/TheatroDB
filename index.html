@@ -1,0 +1,555 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TheatroDB</title>
+  <style>
+    :root {
+      --bg: #f7f4ef;
+      --panel: #ffffff;
+      --ink: #252525;
+      --muted: #696b70;
+      --line: #d8d2c9;
+      --accent: #0f766e;
+      --accent-dark: #134e4a;
+      --warn: #b45309;
+      --blue: #234f87;
+      --shadow: 0 14px 34px rgba(37, 37, 37, 0.11);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.45;
+    }
+
+    a { color: var(--accent-dark); }
+
+    .shell {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 360px minmax(0, 1fr);
+    }
+
+    aside {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: auto;
+      border-right: 1px solid var(--line);
+      background: #fcfaf6;
+      padding: 24px;
+    }
+
+    main {
+      min-width: 0;
+      padding: 28px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 30px;
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+
+    .db-pill {
+      border: 1px solid var(--line);
+      color: var(--muted);
+      padding: 6px 8px;
+      font-size: 12px;
+      white-space: nowrap;
+      background: #fff;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .stat {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 72px;
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 24px;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .controls {
+      display: grid;
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 40px;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #fff;
+      color: var(--ink);
+      padding: 8px 10px;
+      font: inherit;
+    }
+
+    .venue-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .venue-button {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+      text-align: left;
+      padding: 12px;
+      cursor: pointer;
+      display: grid;
+      gap: 6px;
+    }
+
+    .venue-button[aria-current="true"] {
+      border-color: var(--accent);
+      box-shadow: inset 3px 0 0 var(--accent);
+    }
+
+    .venue-name {
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .venue-meta {
+      color: var(--muted);
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      font-size: 13px;
+    }
+
+    .detail {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(300px, 0.9fr);
+      gap: 22px;
+      align-items: start;
+    }
+
+    .hero {
+      min-height: 260px;
+      border-bottom: 1px solid var(--line);
+      background: #1f2933;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero img {
+      width: 100%;
+      height: 340px;
+      object-fit: cover;
+      display: block;
+      opacity: 0.92;
+    }
+
+    .hero.empty {
+      display: grid;
+      place-items: center;
+      color: #eef2f3;
+      background:
+        linear-gradient(135deg, #243b53 0%, #506b5f 54%, #8a6f48 100%);
+    }
+
+    .hero-title {
+      position: absolute;
+      left: 26px;
+      right: 26px;
+      bottom: 22px;
+      color: #fff;
+      text-shadow: 0 2px 16px rgba(0, 0, 0, 0.45);
+    }
+
+    .hero-title h2 {
+      margin: 0 0 8px;
+      font-size: 38px;
+      line-height: 1.05;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .hero-title p {
+      margin: 0;
+      font-size: 16px;
+    }
+
+    .section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .section-body {
+      padding: 20px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .fact {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 12px;
+      min-height: 76px;
+    }
+
+    .fact span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .fact strong {
+      overflow-wrap: anywhere;
+    }
+
+    .side {
+      display: grid;
+      gap: 14px;
+    }
+
+    h3 {
+      font-size: 15px;
+      margin: 0 0 12px;
+      text-transform: uppercase;
+      letter-spacing: 0;
+      color: var(--muted);
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 4px 10px;
+      background: #fafafa;
+      color: var(--ink);
+      font-size: 13px;
+    }
+
+    .chip.warn {
+      border-color: #d6a15e;
+      color: var(--warn);
+      background: #fff8ed;
+    }
+
+    .file-list,
+    .source-list {
+      display: grid;
+      gap: 8px;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .file-list a,
+    .source-list a {
+      display: grid;
+      gap: 4px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 10px;
+      background: #fff;
+      text-decoration: none;
+    }
+
+    .file-list small,
+    .source-list small {
+      color: var(--muted);
+    }
+
+    .empty-text {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    @media (max-width: 980px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        position: static;
+        height: auto;
+      }
+
+      .detail {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      main,
+      aside {
+        padding: 16px;
+      }
+
+      .stats,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero img {
+        height: 280px;
+      }
+
+      .hero-title h2 {
+        font-size: 29px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <aside>
+      <div class="brand">
+        <h1>TheatroDB</h1>
+        <span class="db-pill">SQLite</span>
+      </div>
+
+      <div class="stats" id="stats"></div>
+
+      <div class="controls">
+        <input id="search" type="search" placeholder="Hledat město nebo prostor" autocomplete="off">
+        <select id="countryFilter" aria-label="Země"></select>
+        <select id="typeFilter" aria-label="Typ prostoru"></select>
+      </div>
+
+      <div class="venue-list" id="venueList"></div>
+    </aside>
+
+    <main>
+      <div id="detail"></div>
+    </main>
+  </div>
+
+  <script id="theatro-data" type="application/json">{"generated_from": "database/theatrodb.sqlite", "venues": [{"id": 1, "city": "Blatná", "name": "Sokolovna", "country": "CZ", "venue_type": "sokol_hall", "status": "active", "source_folder": "venues/CZ/blatna/blatna-sokolovna", "original_source_folder": "Blatná - Sokolovna", "web_url": "https://www.plantaz-blatna.cz/mista/komunitni-centrum-velky-sal", "source_file_count": 4, "document_count": 2, "photo_count": 2, "type_label": "Sokolovna", "files": [], "web_sources": [{"title": "Kulturní Plantáž Blatná - Komunitní centrum, velký sál", "url": "https://www.plantaz-blatna.cz/mista/komunitni-centrum-velky-sal", "source_type": "official", "note": "Nejbližší nalezená stránka k blatenskému sálu / Sokolovně; uvádí velký sál s pódiem, světlem a zvukem."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 3, "city": "Bzenec", "name": "kulturní dům", "country": "CZ", "venue_type": "cultural_house", "status": "active", "source_folder": "venues/CZ/bzenec/bzenec-kulturni-dum", "original_source_folder": "Bzenec - kulturní dům", "web_url": "https://www.bzenec.cz/kulturni-objekty/153-kulturni-dum", "source_file_count": 1, "document_count": 1, "photo_count": 0, "type_label": "Kulturní dům", "files": [], "web_sources": [{"title": "Kulturní dům - Město Bzenec", "url": "https://www.bzenec.cz/kulturni-objekty/153-kulturni-dum", "source_type": "official", "note": "Oficiální stránka města Bzenec pro kulturní dům."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 4, "city": "Chvaletice", "name": "DK Chvaletice", "country": "CZ", "venue_type": "cultural_house", "status": "blacklisted", "source_folder": "venues/_blacklisted/CZ/chvaletice/dk-chvaletice-blacklist", "original_source_folder": "DK Chvaletice !BLACKLIST!", "web_url": "https://www.chvaletice.cz/dum-kultury/ds-1181", "source_file_count": 11, "document_count": 0, "photo_count": 11, "type_label": "Kulturní dům", "files": [], "web_sources": [{"title": "Dům kultury - Město Chvaletice", "url": "https://www.chvaletice.cz/dum-kultury/ds-1181", "source_type": "official", "note": "Oficiální stránka města Chvaletice pro dům kultury."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 6, "city": "Havlíčkův Brod", "name": "Kino Ostrov", "country": "CZ", "venue_type": "cinema", "status": "active", "source_folder": "venues/CZ/havlickuv-brod/havlickuv-brod-kino-ostrov", "original_source_folder": "Havlíčkův Brod - Kino Ostrov", "web_url": "https://mdko.cz/", "source_file_count": 2, "document_count": 2, "photo_count": 0, "type_label": "Kino", "files": [], "web_sources": [{"title": "Městské divadlo a kino Ostrov Havlíčkův Brod", "url": "https://mdko.cz/", "source_type": "official", "note": "Oficiální web Městského divadla a kina Ostrov."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 7, "city": "Hlinsko v Čechách", "name": "Hlinsko v Čechách", "country": "CZ", "venue_type": "cultural_house", "status": "active", "source_folder": "venues/CZ/hlinsko-v-cechach/hlinsko-v-cechach", "original_source_folder": "Hlinsko v Čechách", "web_url": "https://www.mfc-hlinsko.cz/divadlo/divadelni-sal/", "source_file_count": 1, "document_count": 0, "photo_count": 1, "type_label": "Kulturní dům", "files": [], "web_sources": [{"title": "Divadelní sál - MFC Hlinsko", "url": "https://www.mfc-hlinsko.cz/divadlo/divadelni-sal/", "source_type": "official", "note": "Stránka divadelního sálu Multifunkčního centra Hlinsko."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 8, "city": "Hradec Králové", "name": "Filharmonie", "country": "CZ", "venue_type": "concert_hall", "status": "active", "source_folder": "venues/CZ/hradec-kralove/hradec-kralove-filharmonie", "original_source_folder": "Hradec Králové - Filharmonie", "web_url": "https://www.fhk.cz/170/Sal_FHK/", "source_file_count": 2, "document_count": 0, "photo_count": 2, "type_label": "Koncertní sál", "files": [], "web_sources": [{"title": "Sál FHK - Filharmonie Hradec Králové", "url": "https://www.fhk.cz/170/Sal_FHK/", "source_type": "official", "note": "Oficiální stránka sálu Filharmonie Hradec Králové."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 9, "city": "Jablonné nad Orlicí", "name": "Jablonné nad Orlicí", "country": "CZ", "venue_type": "cinema", "status": "active", "source_folder": "venues/CZ/jablonne-nad-orlici/jablonne-nad-orlici", "original_source_folder": "Jablonné nad Orlicí", "web_url": "https://www.jablonneno.cz/mestske-kino-jablonne-nad-orlici/ds-10604", "source_file_count": 5, "document_count": 0, "photo_count": 5, "type_label": "Kino", "files": [], "web_sources": [{"title": "Městské kino Jablonné nad Orlicí", "url": "https://www.jablonneno.cz/mestske-kino-jablonne-nad-orlici/ds-10604", "source_type": "official", "note": "Oficiální stránka města pro městské kino a kulturní zařízení."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 10, "city": "Jičín", "name": "Masarykovo divadlo", "country": "CZ", "venue_type": "theatre", "status": "active", "source_folder": "venues/CZ/jicin/jicin-masarykovo-divadlo", "original_source_folder": "Jičín - Masarykovo divadlo", "web_url": "https://www.mujicin.cz/masarykovo-divadlo/os-34098", "source_file_count": 1, "document_count": 1, "photo_count": 0, "type_label": "Divadlo", "files": [], "web_sources": [{"title": "Masarykovo divadlo - Jičín", "url": "https://www.mujicin.cz/masarykovo-divadlo/os-34098", "source_type": "official", "note": "Oficiální stránka města Jičín pro Masarykovo divadlo."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 11, "city": "Kolín", "name": "Městský společenský dům", "country": "CZ", "venue_type": "cultural_house", "status": "active", "source_folder": "venues/CZ/kolin/kolin-mestsky-spolecensky-dum", "original_source_folder": "Kolín - Městský společenský dům", "web_url": "https://www.msd-kolin.cz/", "source_file_count": 1, "document_count": 1, "photo_count": 0, "type_label": "Kulturní dům", "files": [], "web_sources": [{"title": "Městský společenský dům v Kolíně", "url": "https://www.msd-kolin.cz/", "source_type": "official", "note": "Oficiální web Městského společenského domu v Kolíně."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 12, "city": "Krnov", "name": "Krnov", "country": "CZ", "venue_type": "theatre", "status": "active", "source_folder": "venues/CZ/krnov/krnov", "original_source_folder": "Krnov", "web_url": "https://www.mikskrnov.cz/divadlo/o-nas", "source_file_count": 1, "document_count": 1, "photo_count": 0, "type_label": "Divadlo", "files": [], "web_sources": [{"title": "Městské divadlo Krnov - MIKS", "url": "https://www.mikskrnov.cz/divadlo/o-nas", "source_type": "official", "note": "Stránka MIKS Krnov věnovaná městskému divadlu."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 13, "city": "Liberec", "name": "Kulturní dům", "country": "CZ", "venue_type": "cultural_house", "status": "active", "source_folder": "venues/CZ/liberec/liberec-kulturni-dum", "original_source_folder": "Liberec - Kulturní dům", "web_url": "https://www.dkliberec.cz/", "source_file_count": 1, "document_count": 1, "photo_count": 0, "type_label": "Kulturní dům", "files": [], "web_sources": [{"title": "Dům kultury Liberec", "url": "https://www.dkliberec.cz/", "source_type": "official", "note": "Oficiální web Domu kultury Liberec."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 15, "city": "Luhačovice", "name": "lázeňské divadlo", "country": "CZ", "venue_type": "theatre", "status": "active", "source_folder": "venues/CZ/luhacovice/luhacovice-lazenske-divadlo", "original_source_folder": "Luhačovice - lázeňské divadlo", "web_url": "https://www.lazneluhacovice.cz/divadlo", "source_file_count": 3, "document_count": 1, "photo_count": 2, "type_label": "Divadlo", "files": [], "web_sources": [{"title": "Lázeňské divadlo Luhačovice", "url": "https://www.lazneluhacovice.cz/divadlo", "source_type": "official", "note": "Oficiální stránka Lázně Luhačovice pro Lázeňské divadlo."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 16, "city": "Nové Strašecí", "name": "Nové Strašecí", "country": "CZ", "venue_type": "cultural_house", "status": "active", "source_folder": "venues/CZ/nove-straseci/nove-straseci", "original_source_folder": "Nové Strašecí", "web_url": "https://www.novestraseci.cz/volny-cas/kulturni-zarizeni/", "source_file_count": 1, "document_count": 1, "photo_count": 0, "type_label": "Kulturní dům", "files": [], "web_sources": [{"title": "Kulturní zařízení - Nové Strašecí", "url": "https://www.novestraseci.cz/volny-cas/kulturni-zarizeni/", "source_type": "official", "note": "Oficiální stránka města pro Novostrašecké kulturní centrum."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 17, "city": "Nýrsko", "name": "Lesní divadlo", "country": "CZ", "venue_type": "outdoor_theatre", "status": "active", "source_folder": "venues/CZ/nyrsko/nyrsko-lesni-divadlo", "original_source_folder": "Nýrsko - Lesní divadlo", "web_url": "https://www.nyrskozije.cz/locations/lesni-divadlo/", "source_file_count": 14, "document_count": 0, "photo_count": 14, "type_label": "Venkovní divadlo", "files": [], "web_sources": [{"title": "Lesní divadlo - Nýrsko žije", "url": "https://www.nyrskozije.cz/locations/lesni-divadlo/", "source_type": "official", "note": "Stránka kulturního portálu Nýrsko žije pro Lesní divadlo."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 18, "city": "Olomouc Metropol", "name": "Olomouc Metropol", "country": "CZ", "venue_type": "cinema", "status": "active", "source_folder": "venues/CZ/olomouc-metropol/olomouc-metropol", "original_source_folder": "Olomouc Metropol", "web_url": "https://www.kinometropol.cz/", "source_file_count": 1, "document_count": 1, "photo_count": 0, "type_label": "Kino", "files": [], "web_sources": [{"title": "Kino Metropol Olomouc", "url": "https://www.kinometropol.cz/", "source_type": "official", "note": "Oficiální web Kina Metropol Olomouc."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 19, "city": "Osek u Teplic", "name": "Osek u Teplic", "country": "CZ", "venue_type": "cultural_house", "status": "active", "source_folder": "venues/CZ/osek-u-teplic/osek-u-teplic", "original_source_folder": "Osek u Teplic", "web_url": "https://www.osek.cz/volny-cas/kultura-frytajm/", "source_file_count": 2, "document_count": 1, "photo_count": 1, "type_label": "Kulturní dům", "files": [], "web_sources": [{"title": "Kultura / FrýTajm - Osek", "url": "https://www.osek.cz/volny-cas/kultura-frytajm/", "source_type": "official", "note": "Oficiální stránka města Osek pro kulturní centrum / FrýTajm."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 23, "city": "Třebíč", "name": "Třebíč", "country": "CZ", "venue_type": "cultural_house", "status": "active", "source_folder": "venues/CZ/trebic/trebic", "original_source_folder": "Třebíč", "web_url": "https://www.mkstrebic.cz/pronajmy-salu/narodni-dum/", "source_file_count": 3, "document_count": 0, "photo_count": 3, "type_label": "Kulturní dům", "files": [], "web_sources": [{"title": "Národní dům - MKS Třebíč", "url": "https://www.mkstrebic.cz/pronajmy-salu/narodni-dum/", "source_type": "official", "note": "Oficiální stránka MKS Třebíč pro Národní dům."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 24, "city": "Týn nad Vltavou", "name": "MDK Sokolovna", "country": "CZ", "venue_type": "sokol_hall", "status": "active", "source_folder": "venues/CZ/tyn-nad-vltavou/tyn-nad-vltavou-mdk-sokolovna", "original_source_folder": "Týn nad Vltavou, MDK Sokolovna", "web_url": "https://www.kulturatyn.cz/page/6571/kontakty", "source_file_count": 1, "document_count": 1, "photo_count": 0, "type_label": "Sokolovna", "files": [], "web_sources": [{"title": "MDK Sokolovna - Městské centrum kultury a vzdělávání", "url": "https://www.kulturatyn.cz/page/6571/kontakty", "source_type": "official", "note": "Oficiální kontaktní stránka MCKV Týn nad Vltavou pro MDK Sokolovna."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 25, "city": "Uherský Brod", "name": "Uherský Brod", "country": "CZ", "venue_type": "cultural_house", "status": "active", "source_folder": "venues/CZ/uhersky-brod/uhersky-brod", "original_source_folder": "Uherský Brod", "web_url": "https://www.dk.ub.cz/page/6907/technicke-informace", "source_file_count": 2, "document_count": 1, "photo_count": 1, "type_label": "Kulturní dům", "files": [], "web_sources": [{"title": "Technické informace - Dům kultury Uherský Brod", "url": "https://www.dk.ub.cz/page/6907/technicke-informace", "source_type": "official", "note": "Oficiální stránka Domu kultury Uherský Brod s technickými informacemi."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 26, "city": "Vodňany", "name": "Vodňany", "country": "CZ", "venue_type": "cultural_house", "status": "active", "source_folder": "venues/CZ/vodnany/vodnany", "original_source_folder": "Vodňany", "web_url": "https://www.meksvodnany.cz/kontakty", "source_file_count": 1, "document_count": 1, "photo_count": 0, "type_label": "Kulturní dům", "files": [], "web_sources": [{"title": "Městské kulturní středisko Vodňany", "url": "https://www.meksvodnany.cz/kontakty", "source_type": "official", "note": "Oficiální kontaktní stránka MěKS Vodňany."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 27, "city": "Vysoké Mýto", "name": "Šemberovo divadlo", "country": "CZ", "venue_type": "theatre", "status": "active", "source_folder": "venues/CZ/vysoke-myto/vysoke-myto-semberovo-divadlo", "original_source_folder": "Vysoké Mýto - Šemberovo divadlo", "web_url": "https://www.mklub.cz/index.php/component/content/article?id=7%3Asemberovo-divadlo", "source_file_count": 2, "document_count": 0, "photo_count": 2, "type_label": "Divadlo", "files": [], "web_sources": [{"title": "Šemberovo divadlo - Mklub Vysoké Mýto", "url": "https://www.mklub.cz/index.php/component/content/article?id=7%3Asemberovo-divadlo", "source_type": "official", "note": "Oficiální stránka Mklubu pro Šemberovo divadlo včetně základních technických parametrů."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 2, "city": "Bratislava", "name": "Dom kultury Dúbravka", "country": "SK", "venue_type": "cultural_house", "status": "active", "source_folder": "venues/SK/bratislava/bratislava-dom-kultury-dubravka", "original_source_folder": "Bratislava, Dom kultury Dúbravka", "web_url": "https://www.dkdubravka.sk/", "source_file_count": 1, "document_count": 1, "photo_count": 0, "type_label": "Kulturní dům", "files": [], "web_sources": [{"title": "Dom kultúry Dúbravka", "url": "https://www.dkdubravka.sk/", "source_type": "official", "note": "Web Domu kultúry Dúbravka; ověřeno i přes městskou část Bratislava-Dúbravka a BKIS."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 14, "city": "LISKOVÁ", "name": "Kultúrny dom Lisková", "country": "SK", "venue_type": "cultural_house", "status": "active", "source_folder": "venues/SK/liskova/liskova-sk-kulturny-dom-liskova", "original_source_folder": "LISKOVÁ SK, Kultúrny dom Lisková", "web_url": "https://www.liskova.sk/", "source_file_count": 3, "document_count": 2, "photo_count": 1, "type_label": "Kulturní dům", "files": [], "web_sources": [{"title": "Obec Lisková", "url": "https://www.liskova.sk/", "source_type": "official", "note": "Oficiální web obce Lisková; dostupné informace k akcím a provozu kulturního domu jsou na obecním webu."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 20, "city": "Poprad", "name": "Dům kultury", "country": "SK", "venue_type": "cultural_house", "status": "active", "source_folder": "venues/SK/poprad/poprad-dum-kultury", "original_source_folder": "Poprad - Dům kultury", "web_url": "https://www.poprad.sk/registre/176/dom-kultury", "source_file_count": 1, "document_count": 0, "photo_count": 1, "type_label": "Kulturní dům", "files": [], "web_sources": [{"title": "Dom kultúry - Mesto Poprad", "url": "https://www.poprad.sk/registre/176/dom-kultury", "source_type": "official", "note": "Oficiální stránka města Poprad pro Dom kultúry."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 21, "city": "Senica", "name": "MSKS Senica", "country": "SK", "venue_type": "cultural_house", "status": "active", "source_folder": "venues/SK/senica/senica-msks", "original_source_folder": "Senica MSKS", "web_url": "https://www.msks.senica.sk/page/3451/sluzby", "source_file_count": 1, "document_count": 1, "photo_count": 0, "type_label": "Kulturní dům", "files": [], "web_sources": [{"title": "Mestské kultúrne stredisko Senica", "url": "https://www.msks.senica.sk/page/3451/sluzby", "source_type": "official", "note": "Oficiální stránka MsKS Senica s přehledem provozů a služeb."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 5, "city": "Trnava", "name": "DK Trnava", "country": "SK", "venue_type": "cultural_house", "status": "active", "source_folder": "venues/SK/trnava/dk-trnava", "original_source_folder": "DK Trnava", "web_url": "https://www.dktrnava.sk/", "source_file_count": 1, "document_count": 1, "photo_count": 0, "type_label": "Kulturní dům", "files": [], "web_sources": [{"title": "Dom kultúry Trnava", "url": "https://www.dktrnava.sk/", "source_type": "official", "note": "Oficiální web Domu kultúry Trnava."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}, {"id": 22, "city": "Trnava", "name": "Dům kultury Trnava", "country": "SK", "venue_type": "cultural_house", "status": "active", "source_folder": "venues/SK/trnava/trnava-dum-kultury-trnava", "original_source_folder": "Trnava, Dům kultury Trnava", "web_url": "https://www.dktrnava.sk/", "source_file_count": 1, "document_count": 1, "photo_count": 0, "type_label": "Kulturní dům", "files": [], "web_sources": [{"title": "Dom kultúry Trnava", "url": "https://www.dktrnava.sk/", "source_type": "official", "note": "Oficiální web Domu kultúry Trnava; pravděpodobně stejný objekt jako položka DK Trnava."}], "tasks": [{"task_type": "extract_technical_data", "status": "todo", "priority": 1}, {"task_type": "extract_access_notes", "status": "todo", "priority": 2}, {"task_type": "extract_contacts", "status": "todo", "priority": 2}, {"task_type": "verify_web_data", "status": "done", "priority": 3}], "hero_image": null}], "type_labels": {"cinema": "Kino", "concert_hall": "Koncertní sál", "cultural_house": "Kulturní dům", "outdoor_theatre": "Venkovní divadlo", "sokol_hall": "Sokolovna", "theatre": "Divadlo", "unknown": "Nezařazeno"}}</script>
+  <script>
+    const data = JSON.parse(document.getElementById("theatro-data").textContent);
+    const assetPrefix = "";
+    const venues = data.venues;
+    const state = {
+      selectedId: venues[0]?.id ?? null,
+      search: "",
+      country: "all",
+      type: "all"
+    };
+
+    const fmt = new Intl.NumberFormat("cs-CZ");
+
+    const byId = (id) => venues.find((venue) => venue.id === id);
+    const labelFor = (type) => data.type_labels[type] || type;
+
+    function filteredVenues() {
+      const needle = state.search.trim().toLowerCase();
+      return venues.filter((venue) => {
+        const haystack = [venue.city, venue.name, venue.country, venue.type_label].join(" ").toLowerCase();
+        return (!needle || haystack.includes(needle))
+          && (state.country === "all" || venue.country === state.country)
+          && (state.type === "all" || venue.venue_type === state.type);
+      });
+    }
+
+    function renderStats(list) {
+      const files = list.reduce((sum, venue) => sum + venue.source_file_count, 0);
+      const photos = list.reduce((sum, venue) => sum + venue.photo_count, 0);
+      document.getElementById("stats").innerHTML = `
+        <div class="stat"><strong>${fmt.format(list.length)}</strong><span>prostorů</span></div>
+        <div class="stat"><strong>${fmt.format(files)}</strong><span>souborů</span></div>
+        <div class="stat"><strong>${fmt.format(photos)}</strong><span>fotek</span></div>
+        <div class="stat"><strong>${fmt.format(new Set(list.map((v) => v.city)).size)}</strong><span>měst</span></div>
+      `;
+    }
+
+    function renderFilters() {
+      const countries = ["all", ...new Set(venues.map((venue) => venue.country))];
+      const types = ["all", ...new Set(venues.map((venue) => venue.venue_type))];
+      document.getElementById("countryFilter").innerHTML = countries.map((country) =>
+        `<option value="${country}">${country === "all" ? "Všechny země" : country}</option>`
+      ).join("");
+      document.getElementById("typeFilter").innerHTML = types.map((type) =>
+        `<option value="${type}">${type === "all" ? "Všechny typy" : labelFor(type)}</option>`
+      ).join("");
+    }
+
+    function renderList(list) {
+      const selectedVisible = list.some((venue) => venue.id === state.selectedId);
+      if (!selectedVisible) {
+        state.selectedId = list[0]?.id ?? null;
+      }
+      document.getElementById("venueList").innerHTML = list.map((venue) => `
+        <button class="venue-button" data-id="${venue.id}" aria-current="${venue.id === state.selectedId}">
+          <span class="venue-name">${venue.city} · ${venue.name}</span>
+          <span class="venue-meta">
+            <span>${venue.country}</span>
+            <span>${venue.type_label}</span>
+            <span>${venue.source_file_count} souborů</span>
+          </span>
+        </button>
+      `).join("") || `<p class="empty-text">Nic nenalezeno.</p>`;
+    }
+
+    function fileIcon(file) {
+      if (file.file_kind === "photo") return "Foto";
+      if (file.file_kind === "document") return "Dokument";
+      return "Soubor";
+    }
+
+    function renderDetail() {
+      const venue = byId(state.selectedId);
+      const detail = document.getElementById("detail");
+      if (!venue) {
+        detail.innerHTML = `<section class="section"><div class="section-body"><p class="empty-text">Vyber prostor ze seznamu.</p></div></section>`;
+        return;
+      }
+
+      const files = venue.files.map((file) => `
+        <li>
+          <a href="${assetPrefix}${encodeURI(file.path)}" target="_blank">
+            <strong>${fileIcon(file)} · ${file.filename}</strong>
+            <small>${file.extension.toUpperCase()} · ${file.path}</small>
+          </a>
+        </li>
+      `).join("");
+
+      const sources = venue.web_sources.map((source) => `
+        <li>
+          <a href="${source.url}" target="_blank">
+            <strong>${source.title || source.url}</strong>
+            <small>${source.source_type} · ${source.note || ""}</small>
+          </a>
+        </li>
+      `).join("");
+
+      const hero = venue.hero_image
+        ? `<div class="hero"><img src="${assetPrefix}${encodeURI(venue.hero_image)}" alt="${venue.city} - ${venue.name}"><div class="hero-title"><h2>${venue.city}</h2><p>${venue.name}</p></div></div>`
+        : `<div class="hero empty"><div class="hero-title"><h2>${venue.city}</h2><p>${venue.name}</p></div></div>`;
+
+      detail.innerHTML = `
+        <div class="detail">
+          <section class="section">
+            ${hero}
+            <div class="section-body">
+              <div class="grid">
+                <div class="fact"><span>Země</span><strong>${venue.country}</strong></div>
+                <div class="fact"><span>Typ</span><strong>${venue.type_label}</strong></div>
+                <div class="fact"><span>Stav</span><strong>${venue.status}</strong></div>
+                <div class="fact"><span>Dokumenty</span><strong>${venue.document_count}</strong></div>
+                <div class="fact"><span>Fotky</span><strong>${venue.photo_count}</strong></div>
+                <div class="fact"><span>ID</span><strong>${venue.id}</strong></div>
+              </div>
+            </div>
+          </section>
+
+          <div class="side">
+            <section class="section">
+              <div class="section-body">
+                <h3>Archiv</h3>
+                <div class="chips">
+                  <span class="chip">${venue.source_folder}</span>
+                  ${venue.status === "blacklisted" ? '<span class="chip warn">Blacklist</span>' : ""}
+                </div>
+              </div>
+            </section>
+
+            <section class="section">
+              <div class="section-body">
+                <h3>Lokální soubory</h3>
+                <ul class="file-list">${files || '<li class="empty-text">Lokální dokumenty a fotografie nejsou v online verzi publikované.</li>'}</ul>
+              </div>
+            </section>
+
+            <section class="section">
+              <div class="section-body">
+                <h3>Webové zdroje</h3>
+                <ul class="source-list">${sources || '<li class="empty-text">Bez webového zdroje.</li>'}</ul>
+              </div>
+            </section>
+          </div>
+        </div>
+      `;
+    }
+
+    function render() {
+      const list = filteredVenues();
+      renderStats(list);
+      renderList(list);
+      renderDetail();
+    }
+
+    renderFilters();
+    render();
+
+    document.getElementById("search").addEventListener("input", (event) => {
+      state.search = event.target.value;
+      render();
+    });
+
+    document.getElementById("countryFilter").addEventListener("change", (event) => {
+      state.country = event.target.value;
+      render();
+    });
+
+    document.getElementById("typeFilter").addEventListener("change", (event) => {
+      state.type = event.target.value;
+      render();
+    });
+
+    document.getElementById("venueList").addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-id]");
+      if (!button) return;
+      state.selectedId = Number(button.dataset.id);
+      render();
+    });
+  </script>
+</body>
+</html>
