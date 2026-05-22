@@ -1,0 +1,612 @@
+[
+  {
+    "venue_id": 6,
+    "city": "Havlíčkův Brod",
+    "name": "Kino Ostrov",
+    "status": "active",
+    "from": "Havlíčkův Brod - Kino Ostrov",
+    "to": "venues/CZ/cinema/havlickuv-brod-kino-ostrov",
+    "files": [
+      {
+        "id": 19,
+        "from": "Havlíčkův Brod - Kino Ostrov/sve_telny_park.pdf",
+        "to": "venues/CZ/cinema/havlickuv-brod-kino-ostrov/source/documents/sve_telny_park.pdf"
+      },
+      {
+        "id": 20,
+        "from": "Havlíčkův Brod - Kino Ostrov/sve_tla_mdko.pdf",
+        "to": "venues/CZ/cinema/havlickuv-brod-kino-ostrov/source/documents/sve_tla_mdko.pdf"
+      }
+    ]
+  },
+  {
+    "venue_id": 9,
+    "city": "Jablonné nad Orlicí",
+    "name": "Jablonné nad Orlicí",
+    "status": "active",
+    "from": "Jablonné nad Orlicí",
+    "to": "venues/CZ/cinema/jablonne-nad-orlici",
+    "files": [
+      {
+        "id": 24,
+        "from": "Jablonné nad Orlicí/IMG_2162.jpeg",
+        "to": "venues/CZ/cinema/jablonne-nad-orlici/source/photos/IMG_2162.jpeg"
+      },
+      {
+        "id": 25,
+        "from": "Jablonné nad Orlicí/IMG_2163.jpeg",
+        "to": "venues/CZ/cinema/jablonne-nad-orlici/source/photos/IMG_2163.jpeg"
+      },
+      {
+        "id": 26,
+        "from": "Jablonné nad Orlicí/IMG_2164.jpeg",
+        "to": "venues/CZ/cinema/jablonne-nad-orlici/source/photos/IMG_2164.jpeg"
+      },
+      {
+        "id": 27,
+        "from": "Jablonné nad Orlicí/IMG_2165.jpeg",
+        "to": "venues/CZ/cinema/jablonne-nad-orlici/source/photos/IMG_2165.jpeg"
+      },
+      {
+        "id": 28,
+        "from": "Jablonné nad Orlicí/IMG_2166.jpeg",
+        "to": "venues/CZ/cinema/jablonne-nad-orlici/source/photos/IMG_2166.jpeg"
+      }
+    ]
+  },
+  {
+    "venue_id": 18,
+    "city": "Olomouc Metropol",
+    "name": "Olomouc Metropol",
+    "status": "active",
+    "from": "Olomouc Metropol",
+    "to": "venues/CZ/cinema/olomouc-metropol",
+    "files": [
+      {
+        "id": 54,
+        "from": "Olomouc Metropol/Olomouc - kino Metropol .pages",
+        "to": "venues/CZ/cinema/olomouc-metropol/source/documents/Olomouc - kino Metropol .pages"
+      }
+    ]
+  },
+  {
+    "venue_id": 8,
+    "city": "Hradec Králové",
+    "name": "Filharmonie",
+    "status": "active",
+    "from": "Hradec Králové - Filharmonie",
+    "to": "venues/CZ/concert_hall/hradec-kralove-filharmonie",
+    "files": [
+      {
+        "id": 22,
+        "from": "Hradec Králové - Filharmonie/IMG_6558.jpeg",
+        "to": "venues/CZ/concert_hall/hradec-kralove-filharmonie/source/photos/IMG_6558.jpeg"
+      },
+      {
+        "id": 23,
+        "from": "Hradec Králové - Filharmonie/IMG_6559.jpeg",
+        "to": "venues/CZ/concert_hall/hradec-kralove-filharmonie/source/photos/IMG_6559.jpeg"
+      }
+    ]
+  },
+  {
+    "venue_id": 3,
+    "city": "Bzenec",
+    "name": "kulturní dům",
+    "status": "active",
+    "from": "Bzenec - kulturní dům",
+    "to": "venues/CZ/cultural_house/bzenec-kulturni-dum",
+    "files": [
+      {
+        "id": 6,
+        "from": "Bzenec - kulturní dům/KD Bzenec.rtf",
+        "to": "venues/CZ/cultural_house/bzenec-kulturni-dum/source/documents/KD Bzenec.rtf"
+      }
+    ]
+  },
+  {
+    "venue_id": 4,
+    "city": "Chvaletice",
+    "name": "DK Chvaletice",
+    "status": "blacklisted",
+    "from": "DK Chvaletice !BLACKLIST!",
+    "to": "venues/_blacklisted/CZ/cultural_house/dk-chvaletice-blacklist",
+    "files": [
+      {
+        "id": 7,
+        "from": "DK Chvaletice !BLACKLIST!/20241030_090427.jpg",
+        "to": "venues/_blacklisted/CZ/cultural_house/dk-chvaletice-blacklist/source/photos/20241030_090427.jpg"
+      },
+      {
+        "id": 8,
+        "from": "DK Chvaletice !BLACKLIST!/20241030_090709.jpg",
+        "to": "venues/_blacklisted/CZ/cultural_house/dk-chvaletice-blacklist/source/photos/20241030_090709.jpg"
+      },
+      {
+        "id": 9,
+        "from": "DK Chvaletice !BLACKLIST!/20241030_090731.jpg",
+        "to": "venues/_blacklisted/CZ/cultural_house/dk-chvaletice-blacklist/source/photos/20241030_090731.jpg"
+      },
+      {
+        "id": 10,
+        "from": "DK Chvaletice !BLACKLIST!/20241030_090742.jpg",
+        "to": "venues/_blacklisted/CZ/cultural_house/dk-chvaletice-blacklist/source/photos/20241030_090742.jpg"
+      },
+      {
+        "id": 17,
+        "from": "DK Chvaletice !BLACKLIST!/Zadní sál.jpg",
+        "to": "venues/_blacklisted/CZ/cultural_house/dk-chvaletice-blacklist/source/photos/Zadní sál.jpg"
+      },
+      {
+        "id": 11,
+        "from": "DK Chvaletice !BLACKLIST!/osvětlovací pult.jpg",
+        "to": "venues/_blacklisted/CZ/cultural_house/dk-chvaletice-blacklist/source/photos/osvětlovací pult.jpg"
+      },
+      {
+        "id": 12,
+        "from": "DK Chvaletice !BLACKLIST!/pohled1.jpg",
+        "to": "venues/_blacklisted/CZ/cultural_house/dk-chvaletice-blacklist/source/photos/pohled1.jpg"
+      },
+      {
+        "id": 13,
+        "from": "DK Chvaletice !BLACKLIST!/portál.jpg",
+        "to": "venues/_blacklisted/CZ/cultural_house/dk-chvaletice-blacklist/source/photos/portál.jpg"
+      },
+      {
+        "id": 14,
+        "from": "DK Chvaletice !BLACKLIST!/přední sál - na stěně (L).jpg",
+        "to": "venues/_blacklisted/CZ/cultural_house/dk-chvaletice-blacklist/source/photos/přední sál - na stěně (L).jpg"
+      },
+      {
+        "id": 15,
+        "from": "DK Chvaletice !BLACKLIST!/přední sál - na stěně (P).jpg",
+        "to": "venues/_blacklisted/CZ/cultural_house/dk-chvaletice-blacklist/source/photos/přední sál - na stěně (P).jpg"
+      },
+      {
+        "id": 16,
+        "from": "DK Chvaletice !BLACKLIST!/široko.jpg",
+        "to": "venues/_blacklisted/CZ/cultural_house/dk-chvaletice-blacklist/source/photos/široko.jpg"
+      }
+    ]
+  },
+  {
+    "venue_id": 7,
+    "city": "Hlinsko v Čechách",
+    "name": "Hlinsko v Čechách",
+    "status": "active",
+    "from": "Hlinsko v Čechách",
+    "to": "venues/CZ/cultural_house/hlinsko-v-cechach",
+    "files": [
+      {
+        "id": 21,
+        "from": "Hlinsko v Čechách/Light plot & Gear List.jpg",
+        "to": "venues/CZ/cultural_house/hlinsko-v-cechach/source/photos/Light plot & Gear List.jpg"
+      }
+    ]
+  },
+  {
+    "venue_id": 11,
+    "city": "Kolín",
+    "name": "Městský společenský dům",
+    "status": "active",
+    "from": "Kolín - Městský společenský dům",
+    "to": "venues/CZ/cultural_house/kolin-mestsky-spolecensky-dum",
+    "files": [
+      {
+        "id": 30,
+        "from": "Kolín - Městský společenský dům/Kolín - Městský společenský dům.docx",
+        "to": "venues/CZ/cultural_house/kolin-mestsky-spolecensky-dum/source/documents/Kolín - Městský společenský dům.docx"
+      }
+    ]
+  },
+  {
+    "venue_id": 13,
+    "city": "Liberec",
+    "name": "Kulturní dům",
+    "status": "active",
+    "from": "Liberec - Kulturní dům",
+    "to": "venues/CZ/cultural_house/liberec-kulturni-dum",
+    "files": [
+      {
+        "id": 32,
+        "from": "Liberec - Kulturní dům/Liberec - Kulturní dům.docx",
+        "to": "venues/CZ/cultural_house/liberec-kulturni-dum/source/documents/Liberec - Kulturní dům.docx"
+      }
+    ]
+  },
+  {
+    "venue_id": 16,
+    "city": "Nové Strašecí",
+    "name": "Nové Strašecí",
+    "status": "active",
+    "from": "Nové Strašecí",
+    "to": "venues/CZ/cultural_house/nove-straseci",
+    "files": [
+      {
+        "id": 39,
+        "from": "Nové Strašecí/Nové Strašecí.pdf",
+        "to": "venues/CZ/cultural_house/nove-straseci/source/documents/Nové Strašecí.pdf"
+      }
+    ]
+  },
+  {
+    "venue_id": 19,
+    "city": "Osek u Teplic",
+    "name": "Osek u Teplic",
+    "status": "active",
+    "from": "Osek u Teplic",
+    "to": "venues/CZ/cultural_house/osek-u-teplic",
+    "files": [
+      {
+        "id": 56,
+        "from": "Osek u Teplic/Osek u Teplic.pages",
+        "to": "venues/CZ/cultural_house/osek-u-teplic/source/documents/Osek u Teplic.pages"
+      },
+      {
+        "id": 55,
+        "from": "Osek u Teplic/Osek u Teplic.HEIC",
+        "to": "venues/CZ/cultural_house/osek-u-teplic/source/photos/Osek u Teplic.HEIC"
+      }
+    ]
+  },
+  {
+    "venue_id": 23,
+    "city": "Třebíč",
+    "name": "Třebíč",
+    "status": "active",
+    "from": "Třebíč",
+    "to": "venues/CZ/cultural_house/trebic",
+    "files": [
+      {
+        "id": 60,
+        "from": "Třebíč/IMG_0435.HEIC",
+        "to": "venues/CZ/cultural_house/trebic/source/photos/IMG_0435.HEIC"
+      },
+      {
+        "id": 61,
+        "from": "Třebíč/IMG_0436.HEIC",
+        "to": "venues/CZ/cultural_house/trebic/source/photos/IMG_0436.HEIC"
+      },
+      {
+        "id": 62,
+        "from": "Třebíč/IMG_0437.HEIC",
+        "to": "venues/CZ/cultural_house/trebic/source/photos/IMG_0437.HEIC"
+      }
+    ]
+  },
+  {
+    "venue_id": 25,
+    "city": "Uherský Brod",
+    "name": "Uherský Brod",
+    "status": "active",
+    "from": "Uherský Brod",
+    "to": "venues/CZ/cultural_house/uhersky-brod",
+    "files": [
+      {
+        "id": 65,
+        "from": "Uherský Brod/Uherský Brod - KD.pages",
+        "to": "venues/CZ/cultural_house/uhersky-brod/source/documents/Uherský Brod - KD.pages"
+      },
+      {
+        "id": 64,
+        "from": "Uherský Brod/IMG_1126 ve velké velikosti.heic",
+        "to": "venues/CZ/cultural_house/uhersky-brod/source/photos/IMG_1126 ve velké velikosti.heic"
+      }
+    ]
+  },
+  {
+    "venue_id": 26,
+    "city": "Vodňany",
+    "name": "Vodňany",
+    "status": "active",
+    "from": "Vodňany",
+    "to": "venues/CZ/cultural_house/vodnany",
+    "files": [
+      {
+        "id": 66,
+        "from": "Vodňany/Vodňany.pages",
+        "to": "venues/CZ/cultural_house/vodnany/source/documents/Vodňany.pages"
+      }
+    ]
+  },
+  {
+    "venue_id": 17,
+    "city": "Nýrsko",
+    "name": "Lesní divadlo",
+    "status": "active",
+    "from": "Nýrsko - Lesní divadlo",
+    "to": "venues/CZ/outdoor_theatre/nyrsko-lesni-divadlo",
+    "files": [
+      {
+        "id": 40,
+        "from": "Nýrsko - Lesní divadlo/Celkovy pohled 1 ve velké velikosti.jpeg",
+        "to": "venues/CZ/outdoor_theatre/nyrsko-lesni-divadlo/source/photos/Celkovy pohled 1 ve velké velikosti.jpeg"
+      },
+      {
+        "id": 41,
+        "from": "Nýrsko - Lesní divadlo/Celkovy pohled 2 ve velké velikosti.jpeg",
+        "to": "venues/CZ/outdoor_theatre/nyrsko-lesni-divadlo/source/photos/Celkovy pohled 2 ve velké velikosti.jpeg"
+      },
+      {
+        "id": 42,
+        "from": "Nýrsko - Lesní divadlo/IMG-20240704-WA0022 ve velké velikosti.jpeg",
+        "to": "venues/CZ/outdoor_theatre/nyrsko-lesni-divadlo/source/photos/IMG-20240704-WA0022 ve velké velikosti.jpeg"
+      },
+      {
+        "id": 43,
+        "from": "Nýrsko - Lesní divadlo/IMG_8416 ve velké velikosti.jpeg",
+        "to": "venues/CZ/outdoor_theatre/nyrsko-lesni-divadlo/source/photos/IMG_8416 ve velké velikosti.jpeg"
+      },
+      {
+        "id": 44,
+        "from": "Nýrsko - Lesní divadlo/IMG_8417 ve velké velikosti.jpeg",
+        "to": "venues/CZ/outdoor_theatre/nyrsko-lesni-divadlo/source/photos/IMG_8417 ve velké velikosti.jpeg"
+      },
+      {
+        "id": 45,
+        "from": "Nýrsko - Lesní divadlo/IMG_8422 ve velké velikosti.jpeg",
+        "to": "venues/CZ/outdoor_theatre/nyrsko-lesni-divadlo/source/photos/IMG_8422 ve velké velikosti.jpeg"
+      },
+      {
+        "id": 46,
+        "from": "Nýrsko - Lesní divadlo/IMG_8429 ve velké velikosti.jpeg",
+        "to": "venues/CZ/outdoor_theatre/nyrsko-lesni-divadlo/source/photos/IMG_8429 ve velké velikosti.jpeg"
+      },
+      {
+        "id": 47,
+        "from": "Nýrsko - Lesní divadlo/IMG_8431 ve velké velikosti.jpeg",
+        "to": "venues/CZ/outdoor_theatre/nyrsko-lesni-divadlo/source/photos/IMG_8431 ve velké velikosti.jpeg"
+      },
+      {
+        "id": 48,
+        "from": "Nýrsko - Lesní divadlo/IMG_8433 ve velké velikosti.jpeg",
+        "to": "venues/CZ/outdoor_theatre/nyrsko-lesni-divadlo/source/photos/IMG_8433 ve velké velikosti.jpeg"
+      },
+      {
+        "id": 49,
+        "from": "Nýrsko - Lesní divadlo/IMG_8434 ve velké velikosti.jpeg",
+        "to": "venues/CZ/outdoor_theatre/nyrsko-lesni-divadlo/source/photos/IMG_8434 ve velké velikosti.jpeg"
+      },
+      {
+        "id": 50,
+        "from": "Nýrsko - Lesní divadlo/IMG_8435 ve velké velikosti.jpeg",
+        "to": "venues/CZ/outdoor_theatre/nyrsko-lesni-divadlo/source/photos/IMG_8435 ve velké velikosti.jpeg"
+      },
+      {
+        "id": 51,
+        "from": "Nýrsko - Lesní divadlo/IMG_8475 (1) ve velké velikosti.jpeg",
+        "to": "venues/CZ/outdoor_theatre/nyrsko-lesni-divadlo/source/photos/IMG_8475 (1) ve velké velikosti.jpeg"
+      },
+      {
+        "id": 52,
+        "from": "Nýrsko - Lesní divadlo/IMG_8477 ve velké velikosti.jpeg",
+        "to": "venues/CZ/outdoor_theatre/nyrsko-lesni-divadlo/source/photos/IMG_8477 ve velké velikosti.jpeg"
+      },
+      {
+        "id": 53,
+        "from": "Nýrsko - Lesní divadlo/IMG_8483 ve velké velikosti.jpeg",
+        "to": "venues/CZ/outdoor_theatre/nyrsko-lesni-divadlo/source/photos/IMG_8483 ve velké velikosti.jpeg"
+      }
+    ]
+  },
+  {
+    "venue_id": 1,
+    "city": "Blatná",
+    "name": "Sokolovna",
+    "status": "active",
+    "from": "Blatná - Sokolovna",
+    "to": "venues/CZ/sokol_hall/blatna-sokolovna",
+    "files": [
+      {
+        "id": 3,
+        "from": "Blatná - Sokolovna/sokolovna jeviště výkres 2014.pdf",
+        "to": "venues/CZ/sokol_hall/blatna-sokolovna/source/documents/sokolovna jeviště výkres 2014.pdf"
+      },
+      {
+        "id": 4,
+        "from": "Blatná - Sokolovna/světla -sokolovna Blatná 2019.pdf",
+        "to": "venues/CZ/sokol_hall/blatna-sokolovna/source/documents/světla -sokolovna Blatná 2019.pdf"
+      },
+      {
+        "id": 1,
+        "from": "Blatná - Sokolovna/IMG_20200122_144323.jpg",
+        "to": "venues/CZ/sokol_hall/blatna-sokolovna/source/photos/IMG_20200122_144323.jpg"
+      },
+      {
+        "id": 2,
+        "from": "Blatná - Sokolovna/IMG_20200122_144408.jpg",
+        "to": "venues/CZ/sokol_hall/blatna-sokolovna/source/photos/IMG_20200122_144408.jpg"
+      }
+    ]
+  },
+  {
+    "venue_id": 24,
+    "city": "Týn nad Vltavou",
+    "name": "MDK Sokolovna",
+    "status": "active",
+    "from": "Týn nad Vltavou, MDK Sokolovna",
+    "to": "venues/CZ/sokol_hall/tyn-nad-vltavou-mdk-sokolovna",
+    "files": [
+      {
+        "id": 63,
+        "from": "Týn nad Vltavou, MDK Sokolovna/pasport techniky MDK Sokolovna.pdf",
+        "to": "venues/CZ/sokol_hall/tyn-nad-vltavou-mdk-sokolovna/source/documents/pasport techniky MDK Sokolovna.pdf"
+      }
+    ]
+  },
+  {
+    "venue_id": 10,
+    "city": "Jičín",
+    "name": "Masarykovo divadlo",
+    "status": "active",
+    "from": "Jičín - Masarykovo divadlo",
+    "to": "venues/CZ/theatre/jicin-masarykovo-divadlo",
+    "files": [
+      {
+        "id": 29,
+        "from": "Jičín - Masarykovo divadlo/Jičín - Masarykovo divadlo 2025-05-27 18_34_49.docx",
+        "to": "venues/CZ/theatre/jicin-masarykovo-divadlo/source/documents/Jičín - Masarykovo divadlo 2025-05-27 18_34_49.docx"
+      }
+    ]
+  },
+  {
+    "venue_id": 12,
+    "city": "Krnov",
+    "name": "Krnov",
+    "status": "active",
+    "from": "Krnov",
+    "to": "venues/CZ/theatre/krnov",
+    "files": [
+      {
+        "id": 31,
+        "from": "Krnov/Krnov - světelné vybavení.docx",
+        "to": "venues/CZ/theatre/krnov/source/documents/Krnov - světelné vybavení.docx"
+      }
+    ]
+  },
+  {
+    "venue_id": 15,
+    "city": "Luhačovice",
+    "name": "lázeňské divadlo",
+    "status": "active",
+    "from": "Luhačovice - lázeňské divadlo",
+    "to": "venues/CZ/theatre/luhacovice-lazenske-divadlo",
+    "files": [
+      {
+        "id": 36,
+        "from": "Luhačovice - lázeňské divadlo/Luhačovice - divadlo.docx",
+        "to": "venues/CZ/theatre/luhacovice-lazenske-divadlo/source/documents/Luhačovice - divadlo.docx"
+      },
+      {
+        "id": 37,
+        "from": "Luhačovice - lázeňské divadlo/Luhačovice - hlediště.png",
+        "to": "venues/CZ/theatre/luhacovice-lazenske-divadlo/source/photos/Luhačovice - hlediště.png"
+      },
+      {
+        "id": 38,
+        "from": "Luhačovice - lázeňské divadlo/Luhačovice - jeviště.png",
+        "to": "venues/CZ/theatre/luhacovice-lazenske-divadlo/source/photos/Luhačovice - jeviště.png"
+      }
+    ]
+  },
+  {
+    "venue_id": 27,
+    "city": "Vysoké Mýto",
+    "name": "Šemberovo divadlo",
+    "status": "active",
+    "from": "Vysoké Mýto - Šemberovo divadlo",
+    "to": "venues/CZ/theatre/vysoke-myto-semberovo-divadlo",
+    "files": [
+      {
+        "id": 67,
+        "from": "Vysoké Mýto - Šemberovo divadlo/Světelný pult - STRAND lighting GSX .jpg",
+        "to": "venues/CZ/theatre/vysoke-myto-semberovo-divadlo/source/photos/Světelný pult - STRAND lighting GSX .jpg"
+      },
+      {
+        "id": 68,
+        "from": "Vysoké Mýto - Šemberovo divadlo/Šemberovo divadlo patch 2-Vice.png",
+        "to": "venues/CZ/theatre/vysoke-myto-semberovo-divadlo/source/photos/Šemberovo divadlo patch 2-Vice.png"
+      }
+    ]
+  },
+  {
+    "venue_id": 2,
+    "city": "Bratislava",
+    "name": "Dom kultury Dúbravka",
+    "status": "active",
+    "from": "Bratislava, Dom kultury Dúbravka",
+    "to": "venues/SK/cultural_house/bratislava-dom-kultury-dubravka",
+    "files": [
+      {
+        "id": 5,
+        "from": "Bratislava, Dom kultury Dúbravka/Dokument.docx",
+        "to": "venues/SK/cultural_house/bratislava-dom-kultury-dubravka/source/documents/Dokument.docx"
+      }
+    ]
+  },
+  {
+    "venue_id": 14,
+    "city": "LISKOVÁ",
+    "name": "Kultúrny dom Lisková",
+    "status": "active",
+    "from": "LISKOVÁ SK, Kultúrny dom Lisková",
+    "to": "venues/SK/cultural_house/liskova-sk-kulturny-dom-liskova",
+    "files": [
+      {
+        "id": 33,
+        "from": "LISKOVÁ SK, Kultúrny dom Lisková/LISKOVÁ, Kultúrny dom Lisková.docx",
+        "to": "venues/SK/cultural_house/liskova-sk-kulturny-dom-liskova/source/documents/LISKOVÁ, Kultúrny dom Lisková.docx"
+      },
+      {
+        "id": 35,
+        "from": "LISKOVÁ SK, Kultúrny dom Lisková/Rozloženie osvetlenia + rozmery.pdf",
+        "to": "venues/SK/cultural_house/liskova-sk-kulturny-dom-liskova/source/documents/Rozloženie osvetlenia + rozmery.pdf"
+      },
+      {
+        "id": 34,
+        "from": "LISKOVÁ SK, Kultúrny dom Lisková/réžia.jpg",
+        "to": "venues/SK/cultural_house/liskova-sk-kulturny-dom-liskova/source/photos/réžia.jpg"
+      }
+    ]
+  },
+  {
+    "venue_id": 20,
+    "city": "Poprad",
+    "name": "Dům kultury",
+    "status": "active",
+    "from": "Poprad - Dům kultury",
+    "to": "venues/SK/cultural_house/poprad-dum-kultury",
+    "files": [
+      {
+        "id": 57,
+        "from": "Poprad - Dům kultury/DK PP 2025.JPG",
+        "to": "venues/SK/cultural_house/poprad-dum-kultury/source/photos/DK PP 2025.JPG"
+      }
+    ]
+  },
+  {
+    "venue_id": 21,
+    "city": "Senica MSKS",
+    "name": "Senica MSKS",
+    "status": "active",
+    "from": "Senica MSKS",
+    "to": "venues/SK/cultural_house/senica-msks",
+    "files": [
+      {
+        "id": 58,
+        "from": "Senica MSKS/MSKS Senica.docx",
+        "to": "venues/SK/cultural_house/senica-msks/source/documents/MSKS Senica.docx"
+      }
+    ]
+  },
+  {
+    "venue_id": 5,
+    "city": "Trnava",
+    "name": "DK Trnava",
+    "status": "active",
+    "from": "DK Trnava",
+    "to": "venues/SK/cultural_house/dk-trnava",
+    "files": [
+      {
+        "id": 18,
+        "from": "DK Trnava/DOM KULTÚRY TRNAVA - technické podmínky.docx",
+        "to": "venues/SK/cultural_house/dk-trnava/source/documents/DOM KULTÚRY TRNAVA - technické podmínky.docx"
+      }
+    ]
+  },
+  {
+    "venue_id": 22,
+    "city": "Trnava",
+    "name": "Dům kultury Trnava",
+    "status": "active",
+    "from": "Trnava, Dům kultury Trnava",
+    "to": "venues/SK/cultural_house/trnava-dum-kultury-trnava",
+    "files": [
+      {
+        "id": 59,
+        "from": "Trnava, Dům kultury Trnava/TRNAVA.docx",
+        "to": "venues/SK/cultural_house/trnava-dum-kultury-trnava/source/documents/TRNAVA.docx"
+      }
+    ]
+  }
+]
