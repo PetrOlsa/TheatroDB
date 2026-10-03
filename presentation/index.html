@@ -461,6 +461,10 @@
         </li>
       `).join("");
 
+      const localOnly = venue.local_only_count
+        ? `<li class="empty-text">${fmt.format(venue.local_only_count)} ${venue.local_only_count === 1 ? "soubor je" : venue.local_only_count < 5 ? "soubory jsou" : "souborů je"} pouze v lokálním archivu.</li>`
+        : "";
+
       const sources = venue.web_sources.map((source) => `
         <li>
           <a href="${source.url}" target="_blank">
@@ -504,7 +508,7 @@
             <section class="section">
               <div class="section-body">
                 <h3>Soubory</h3>
-                <ul class="file-list">${files || '<li class="empty-text">Bez souborů.</li>'}</ul>
+                <ul class="file-list">${files + localOnly || '<li class="empty-text">Bez souborů.</li>'}</ul>
               </div>
             </section>
 

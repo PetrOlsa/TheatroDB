@@ -10,7 +10,7 @@ GitHub Pages používá root soubor:
 index.html
 ```
 
-Online verze nepublikuje lokální fotografie a technické dokumenty. Ty zůstávají pouze v lokální pracovní databázi a archivu.
+Online verze odkazuje jen na soubory, které jsou nahrané v tomto repozitáři (podle `git ls-files`). Ostatní fotografie a technické dokumenty zůstávají pouze v lokální pracovní databázi a archivu a na webu se u prostoru jen spočítají.
 
 Data v HTML jsou generovaná ze SQLite databáze:
 

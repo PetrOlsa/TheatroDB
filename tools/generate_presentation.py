@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import json
 import sqlite3
+import subprocess
+import unicodedata
 from pathlib import Path
 
 
@@ -100,18 +102,49 @@ def build_data() -> dict:
     }
 
 
+def nfc(path: str) -> str:
+    return unicodedata.normalize("NFC", path)
+
+
+def published_paths() -> dict[str, str] | None:
+    """Soubory v gitu (= na GitHub Pages), klíč je NFC tvar cesty, hodnota cesta tak, jak je v repozitáři."""
+    try:
+        result = subprocess.run(
+            ["git", "-C", str(ROOT), "ls-files", "-z"],
+            capture_output=True,
+            check=True,
+        )
+    except (OSError, subprocess.CalledProcessError):
+        return None
+    paths = [path.decode("utf-8") for path in result.stdout.split(b"\0") if path]
+    return {nfc(path): path for path in paths}
+
+
 def public_data(data: dict) -> dict:
     safe = json.loads(json.dumps(data, ensure_ascii=False))
+    published = published_paths()
+    if published is None:
+        print("Varování: git není dostupný, online verze bude bez souborů.")
+        published = {}
     for venue in safe["venues"]:
-        venue["hero_image"] = None
-        venue["files"] = []
+        files = []
+        for file in venue["files"]:
+            repo_path = published.get(nfc(file["path"]))
+            if repo_path:
+                files.append({**file, "path": repo_path})
+        venue["local_only_count"] = len(venue["files"]) - len(files)
+        venue["files"] = files
+        venue["hero_image"] = next(
+            (file["path"] for file in files if file["file_kind"] == "photo"),
+            None,
+        )
     return safe
 
 
 def html_template(data: dict, asset_prefix: str, public_mode: bool = False) -> str:
     data_json = json.dumps(data, ensure_ascii=False)
-    file_section_title = "Lokální soubory" if public_mode else "Soubory"
-    empty_file_text = "Lokální dokumenty a fotografie nejsou v online verzi publikované." if public_mode else "Bez souborů."
+    file_section_title = "Soubory"
+    empty_file_text = "Bez souborů."
     return f"""<!doctype html>
 <html lang="cs">
 <head>
@@ -575,6 +608,10 @@ def html_template(data: dict, asset_prefix: str, public_mode: bool = False) -> s
         </li>
       `).join("");
 
+      const localOnly = venue.local_only_count
+        ? `<li class="empty-text">${{fmt.format(venue.local_only_count)}} ${{venue.local_only_count === 1 ? "soubor je" : venue.local_only_count < 5 ? "soubory jsou" : "souborů je"}} pouze v lokálním archivu.</li>`
+        : "";
+
       const sources = venue.web_sources.map((source) => `
         <li>
           <a href="${{source.url}}" target="_blank">
@@ -618,7 +655,7 @@ def html_template(data: dict, asset_prefix: str, public_mode: bool = False) -> s
             <section class="section">
               <div class="section-body">
                 <h3>{file_section_title}</h3>
-                <ul class="file-list">${{files || '<li class="empty-text">{empty_file_text}</li>'}}</ul>
+                <ul class="file-list">${{files + localOnly || '<li class="empty-text">{empty_file_text}</li>'}}</ul>
               </div>
             </section>
 
