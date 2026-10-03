@@ -166,3 +166,14 @@ SELECT
 FROM venue_overview
 WHERE venue_type = 'unknown'
 ORDER BY city, name;
+
+CREATE TABLE IF NOT EXISTS venue_locations (
+    venue_id INTEGER PRIMARY KEY REFERENCES venues(id) ON DELETE CASCADE,
+    latitude REAL NOT NULL,
+    longitude REAL NOT NULL,
+    precision TEXT NOT NULL DEFAULT 'city',
+    address TEXT,
+    source TEXT,
+    note TEXT,
+    updated_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
+);

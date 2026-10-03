@@ -21,6 +21,7 @@ Tahle složka je pracovní základ pro databázi divadelních a kulturních pros
 - `access_notes` - dojezd, vykládka, parkování, omezení.
 - `user_notes` - volné poznámky z praxe, oddělené od ověřených údajů.
 - `web_sources` - ověřené odkazy na oficiální weby a další zdroje.
+- `venue_locations` - poloha prostoru (souřadnice, přesnost, adresa); zdrojem je `venue_locations.csv`, import přes `../tools/import_locations.py`.
 - `extraction_tasks` - seznam úkolů, co je potřeba z dokumentů nebo webu doplnit.
 
 ## Typy prostorů

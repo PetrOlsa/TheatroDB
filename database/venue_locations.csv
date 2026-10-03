@@ -1,0 +1,28 @@
+slug,latitude,longitude,precision,address,source,note
+blatna-sokolovna,49.42489,13.88176,city,,GeoNames,Střed obce; přesnou adresu sálu doplnit.
+bratislava-dom-kultury-dubravka,48.18530,17.04580,approx,"Saratovská 2/A, 841 02 Bratislava-Dúbravka",odhad podle adresy,Ověřit polohu budovy.
+bzenec-kulturni-dum,48.97336,17.26685,city,,GeoNames,Střed obce; přesnou adresu doplnit.
+dk-chvaletice-blacklist,50.03443,15.41846,city,,GeoNames,Střed obce; přesnou adresu doplnit.
+dk-trnava,48.37700,17.58750,approx,"Trojičné námestie 1, 917 01 Trnava",odhad podle adresy,Stejný objekt jako Dům kultury Trnava; ověřit polohu budovy.
+havlickuv-brod-kino-ostrov,49.60690,15.57937,city,,GeoNames,Střed města; přesnou adresu doplnit.
+hlinsko-v-cechach,49.76213,15.90756,city,,GeoNames,Střed města; přesnou adresu doplnit.
+hradec-kralove-filharmonie,50.20930,15.82700,approx,"Eliščino nábřeží 777/1, 500 03 Hradec Králové",odhad podle adresy,Ověřit polohu budovy.
+jablonne-nad-orlici,50.02964,16.60059,city,,GeoNames,Střed města; přesnou adresu doplnit.
+jicin-masarykovo-divadlo,50.43723,15.35162,city,,GeoNames,Střed města; přesnou adresu doplnit.
+kolin-mestsky-spolecensky-dum,50.02806,15.19980,city,,GeoNames,Střed města; přesnou adresu doplnit.
+krnov,50.08967,17.70385,city,,GeoNames,Střed města; přesnou adresu doplnit.
+liberec-kulturni-dum,50.76840,15.05900,approx,"Soukenné náměstí 588/1, 460 01 Liberec",odhad podle adresy,Ověřit polohu budovy.
+liskova-sk-kulturny-dom-liskova,49.08700,19.33600,city,,odhad,Obec u Ružomberku; souřadnice ověřit.
+luhacovice-lazenske-divadlo,49.09982,17.75747,city,,GeoNames,Střed města; přesnou adresu doplnit.
+nove-straseci,50.15272,13.90043,city,,GeoNames,Střed města; přesnou adresu doplnit.
+nyrsko-lesni-divadlo,49.29387,13.14353,city,,GeoNames,Střed města; lesní divadlo leží mimo centrum.
+olomouc-metropol,49.59250,17.25800,approx,"Sokolská 25, 779 00 Olomouc",odhad podle adresy,Ověřit polohu budovy.
+osek-u-teplic,50.62115,13.69274,city,,GeoNames,Střed města; přesnou adresu doplnit.
+poprad-dum-kultury,49.06144,20.29798,city,,GeoNames,Střed města; přesnou adresu doplnit.
+senica-msks,48.67922,17.36697,city,,GeoNames,Střed města; přesnou adresu doplnit.
+trnava-dum-kultury-trnava,48.37700,17.58750,approx,"Trojičné námestie 1, 917 01 Trnava",odhad podle adresy,Stejný objekt jako DK Trnava; ověřit polohu budovy.
+trebic,49.21530,15.88100,approx,"Karlovo náměstí 47, 674 01 Třebíč",odhad podle adresy,Národní dům; ověřit polohu budovy.
+tyn-nad-vltavou-mdk-sokolovna,49.22340,14.42057,city,,GeoNames,Střed města; přesnou adresu doplnit.
+uhersky-brod,49.02513,17.64715,city,,GeoNames,Střed města; přesnou adresu doplnit.
+vodnany,49.14789,14.17513,city,,GeoNames,Střed města; přesnou adresu doplnit.
+vysoke-myto-semberovo-divadlo,49.95320,16.16169,city,,GeoNames,Střed města; přesnou adresu doplnit.

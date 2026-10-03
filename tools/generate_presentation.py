@@ -51,14 +51,30 @@ def build_data() -> dict:
             v.web_url,
             vo.source_file_count,
             vo.document_count,
-            vo.photo_count
+            vo.photo_count,
+            vl.latitude,
+            vl.longitude,
+            vl.precision AS location_precision,
+            vl.address,
+            vl.note AS location_note
         FROM venues v
         JOIN venue_overview vo ON vo.id = v.id
+        LEFT JOIN venue_locations vl ON vl.venue_id = v.id
         ORDER BY v.country, v.city, v.name
         """,
     )
 
     for venue in venues:
+        latitude = venue.pop("latitude")
+        longitude = venue.pop("longitude")
+        location = {
+            "lat": latitude,
+            "lon": longitude,
+            "precision": venue.pop("location_precision"),
+            "address": venue.pop("address"),
+            "note": venue.pop("location_note"),
+        }
+        venue["location"] = location if latitude is not None and longitude is not None else None
         venue["type_label"] = TYPE_LABELS.get(venue["venue_type"], venue["venue_type"])
         venue["files"] = fetch_rows(
             conn,
@@ -151,6 +167,7 @@ def html_template(data: dict, asset_prefix: str, public_mode: bool = False) -> s
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>TheatroDB</title>
+  <link rel="stylesheet" href="{asset_prefix}assets/leaflet/leaflet.css">
   <style>
     :root {{
       --bg: #f7f4ef;
@@ -459,6 +476,94 @@ def html_template(data: dict, asset_prefix: str, public_mode: bool = False) -> s
       color: var(--muted);
     }}
 
+    .map-section {{
+      margin-bottom: 22px;
+    }}
+
+    .map-head {{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      padding: 14px 20px;
+      border-bottom: 1px solid var(--line);
+    }}
+
+    .map-head h3 {{
+      margin: 0;
+    }}
+
+    .legend {{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px 14px;
+      color: var(--muted);
+      font-size: 13px;
+    }}
+
+    .legend span {{
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }}
+
+    .legend i {{
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      display: inline-block;
+    }}
+
+    .legend i.ring {{
+      background: #fff;
+      border: 3px solid var(--muted);
+    }}
+
+    #map {{
+      height: 440px;
+      background: #e9e5dd;
+    }}
+
+    .map-fallback {{
+      padding: 20px;
+    }}
+
+    .pin {{
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: var(--pin);
+      border: 2px solid #fff;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+      display: grid;
+      place-items: center;
+      color: #fff;
+      font: 700 11px/1 Inter, ui-sans-serif, system-ui, sans-serif;
+      transition: transform 0.15s ease;
+    }}
+
+    .pin.city {{
+      background: #fff;
+      border: 4px solid var(--pin);
+      color: var(--pin);
+    }}
+
+    .pin.selected {{
+      transform: scale(1.35);
+      box-shadow: 0 0 0 4px rgba(15, 118, 110, 0.35), 0 2px 10px rgba(0, 0, 0, 0.4);
+    }}
+
+    .leaflet-tooltip {{
+      font: 13px/1.35 Inter, ui-sans-serif, system-ui, sans-serif;
+    }}
+
+    .location-link {{
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 13px;
+    }}
+
     @media (max-width: 980px) {{
       .shell {{
         grid-template-columns: 1fr;
@@ -489,6 +594,10 @@ def html_template(data: dict, asset_prefix: str, public_mode: bool = False) -> s
         height: 280px;
       }}
 
+      #map {{
+        height: 320px;
+      }}
+
       .hero-title h2 {{
         font-size: 29px;
       }}
@@ -515,9 +624,18 @@ def html_template(data: dict, asset_prefix: str, public_mode: bool = False) -> s
     </aside>
 
     <main>
+      <section class="section map-section">
+        <div class="map-head">
+          <h3>Mapa prostorů</h3>
+          <div class="legend" id="legend"></div>
+        </div>
+        <div id="map"></div>
+      </section>
       <div id="detail"></div>
     </main>
   </div>
+
+  <script src="{asset_prefix}assets/leaflet/leaflet.js"></script>
 
   <script id="theatro-data" type="application/json">{data_json}</script>
   <script>
@@ -585,6 +703,132 @@ def html_template(data: dict, asset_prefix: str, public_mode: bool = False) -> s
       `).join("") || `<p class="empty-text">Nic nenalezeno.</p>`;
     }}
 
+    const TYPE_COLORS = {{
+      theatre: "#9f1239",
+      cultural_house: "#0f766e",
+      cinema: "#234f87",
+      concert_hall: "#6d28d9",
+      sokol_hall: "#b45309",
+      outdoor_theatre: "#3f7d20",
+      unknown: "#6b7280"
+    }};
+    const BLACKLIST_COLOR = "#8a8f98";
+    const PRECISION_LABELS = {{
+      exact: "přesná poloha budovy",
+      approx: "přibližná poloha budovy",
+      city: "střed obce"
+    }};
+
+    const pinColor = (venue) => venue.status === "blacklisted"
+      ? BLACKLIST_COLOR
+      : (TYPE_COLORS[venue.venue_type] || TYPE_COLORS.unknown);
+
+    const mapState = {{ map: null, layer: null, lastFilterKey: null }};
+
+    function initMap() {{
+      const container = document.getElementById("map");
+      if (typeof L === "undefined") {{
+        container.outerHTML = `<p class="empty-text map-fallback">Mapu se nepodařilo načíst.</p>`;
+        return;
+      }}
+      mapState.map = L.map(container, {{ scrollWheelZoom: false }}).setView([49.6, 17.0], 7);
+      L.tileLayer("https://{{s}}.basemaps.cartocdn.com/rastertiles/voyager/{{z}}/{{x}}/{{y}}{{r}}.png", {{
+        maxZoom: 19,
+        subdomains: "abcd",
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+      }}).addTo(mapState.map);
+      mapState.map.on("focus", () => mapState.map.scrollWheelZoom.enable());
+      mapState.map.on("blur", () => mapState.map.scrollWheelZoom.disable());
+      mapState.layer = L.layerGroup().addTo(mapState.map);
+
+      const usedTypes = [...new Set(venues.map((venue) => venue.venue_type))];
+      document.getElementById("legend").innerHTML = usedTypes.map((type) =>
+        `<span><i style="background:${{TYPE_COLORS[type] || TYPE_COLORS.unknown}}"></i>${{labelFor(type)}}</span>`
+      ).join("")
+        + (venues.some((venue) => venue.status === "blacklisted") ? `<span><i style="background:${{BLACKLIST_COLOR}}"></i>Blacklist</span>` : "")
+        + `<span><i class="ring"></i>poloha jen podle obce</span>`;
+    }}
+
+    function renderMap(list) {{
+      if (!mapState.map) return;
+      const groups = new Map();
+      list.filter((venue) => venue.location).forEach((venue) => {{
+        const key = `${{venue.location.lat.toFixed(4)}},${{venue.location.lon.toFixed(4)}}`;
+        if (!groups.has(key)) groups.set(key, []);
+        groups.get(key).push(venue);
+      }});
+
+      mapState.layer.clearLayers();
+      const points = [];
+      groups.forEach((group) => {{
+        const first = group[0];
+        const selectedIndex = group.findIndex((venue) => venue.id === state.selectedId);
+        const size = group.length > 1 ? 26 : 20;
+        const classes = ["pin", first.location.precision === "city" ? "city" : "", selectedIndex >= 0 ? "selected" : ""].join(" ");
+        const icon = L.divIcon({{
+          className: "",
+          html: `<div class="${{classes}}" style="--pin:${{pinColor(first)}}">${{group.length > 1 ? group.length : ""}}</div>`,
+          iconSize: [size, size],
+          iconAnchor: [size / 2, size / 2]
+        }});
+        const latLng = [first.location.lat, first.location.lon];
+        points.push(latLng);
+        const marker = L.marker(latLng, {{
+          icon,
+          title: group.map((venue) => `${{venue.city}} · ${{venue.name}}`).join(", "),
+          zIndexOffset: selectedIndex >= 0 ? 1000 : 0
+        }});
+        marker.bindTooltip(group.map((venue) =>
+          `<strong>${{venue.city}}</strong> · ${{venue.name}}<br><small>${{venue.type_label}}</small>`
+        ).join("<br>"), {{ direction: "top", offset: [0, -size / 2] }});
+        marker.on("click", () => {{
+          const next = group[(selectedIndex + 1) % group.length];
+          selectVenue(next.id, {{ fromMap: true }});
+        }});
+        marker.addTo(mapState.layer);
+      }});
+
+      const filterKey = `${{state.search}}|${{state.country}}|${{state.type}}`;
+      if (filterKey !== mapState.lastFilterKey) {{
+        mapState.lastFilterKey = filterKey;
+        if (points.length === 1) {{
+          mapState.map.setView(points[0], 12);
+        }} else if (points.length) {{
+          mapState.map.fitBounds(points, {{ padding: [30, 30], maxZoom: 12 }});
+        }}
+      }}
+    }}
+
+    function focusSelectedOnMap() {{
+      const venue = byId(state.selectedId);
+      if (!mapState.map || !venue?.location) return;
+      const latLng = [venue.location.lat, venue.location.lon];
+      if (!mapState.map.getBounds().pad(-0.1).contains(latLng)) {{
+        mapState.map.panTo(latLng);
+      }}
+    }}
+
+    function selectVenue(id, {{ fromMap = false }} = {{}}) {{
+      state.selectedId = id;
+      render();
+      if (!fromMap) focusSelectedOnMap();
+    }}
+
+    function locationFact(venue) {{
+      const location = venue.location;
+      if (!location) {{
+        return `<div class="fact"><span>Poloha</span><strong>neuvedena</strong></div>`;
+      }}
+      const mapyCz = `https://mapy.cz/zakladni?x=${{location.lon}}&y=${{location.lat}}&z=${{location.precision === "city" ? 14 : 17}}&source=coor&id=${{location.lon}}%2C${{location.lat}}`;
+      return `
+        <div class="fact">
+          <span>Poloha · ${{PRECISION_LABELS[location.precision] || location.precision}}</span>
+          <strong>${{location.address || venue.city}}</strong><br>
+          <a class="location-link" href="${{mapyCz}}" target="_blank" rel="noopener">Otevřít v Mapy.cz</a>
+        </div>
+      `;
+    }}
+
     function fileIcon(file) {{
       if (file.file_kind === "photo") return "Foto";
       if (file.file_kind === "document") return "Dokument";
@@ -638,6 +882,9 @@ def html_template(data: dict, asset_prefix: str, public_mode: bool = False) -> s
                 <div class="fact"><span>Fotky</span><strong>${{venue.photo_count}}</strong></div>
                 <div class="fact"><span>ID</span><strong>${{venue.id}}</strong></div>
               </div>
+              <div class="grid" style="grid-template-columns: 1fr; margin-top: 10px;">
+                ${{locationFact(venue)}}
+              </div>
             </div>
           </section>
 
@@ -674,10 +921,12 @@ def html_template(data: dict, asset_prefix: str, public_mode: bool = False) -> s
       const list = filteredVenues();
       renderStats(list);
       renderList(list);
+      renderMap(list);
       renderDetail();
     }}
 
     renderFilters();
+    initMap();
     render();
 
     document.getElementById("search").addEventListener("input", (event) => {{
@@ -698,8 +947,7 @@ def html_template(data: dict, asset_prefix: str, public_mode: bool = False) -> s
     document.getElementById("venueList").addEventListener("click", (event) => {{
       const button = event.target.closest("button[data-id]");
       if (!button) return;
-      state.selectedId = Number(button.dataset.id);
-      render();
+      selectVenue(Number(button.dataset.id));
     }});
   </script>
 </body>

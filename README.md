@@ -18,11 +18,23 @@ Data v HTML jsou generovaná ze SQLite databáze:
 python3 tools/generate_presentation.py
 ```
 
+## Mapa a polohy prostorů
+
+Souřadnice prostorů se udržují v `database/venue_locations.csv` (jeden řádek na prostor podle `slug`). Sloupec `precision` říká, jak přesná poloha je: `exact` (ověřená budova), `approx` (odhad podle adresy) nebo `city` (střed obce). Po úpravě CSV načti polohy do databáze a přegeneruj web:
+
+```bash
+python3 tools/import_locations.py
+python3 tools/generate_presentation.py
+```
+
+Mapa používá knihovnu Leaflet uloženou v `assets/leaflet/` a mapové podklady OpenStreetMap / CARTO.
+
 ## Struktura
 
 - `index.html` - online prezentace pro GitHub Pages.
 - `presentation/` - lokální kopie prezentace a poznámky.
 - `venues/` - zdrojové soubory prostorů podle země a města.
 - `database/` - SQLite databáze a schéma.
-- `tools/` - import, organizace archivu a generování HTML.
+- `tools/` - import, organizace archivu, import poloh a generování HTML.
+- `assets/leaflet/` - knihovna Leaflet pro mapu.
 - `incoming/new_venues/` - příchozí složka pro nové nezařazené prostory.
