@@ -732,10 +732,9 @@ def html_template(data: dict, asset_prefix: str, public_mode: bool = False) -> s
         return;
       }}
       mapState.map = L.map(container, {{ scrollWheelZoom: false }}).setView([49.6, 17.0], 7);
-      L.tileLayer("https://{{s}}.basemaps.cartocdn.com/rastertiles/voyager/{{z}}/{{x}}/{{y}}{{r}}.png", {{
+      L.tileLayer("https://tile.openstreetmap.org/{{z}}/{{x}}/{{y}}.png", {{
         maxZoom: 19,
-        subdomains: "abcd",
-        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
       }}).addTo(mapState.map);
       mapState.map.on("focus", () => mapState.map.scrollWheelZoom.enable());
       mapState.map.on("blur", () => mapState.map.scrollWheelZoom.disable());

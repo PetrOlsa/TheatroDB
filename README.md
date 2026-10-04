@@ -27,7 +27,7 @@ python3 tools/import_locations.py
 python3 tools/generate_presentation.py
 ```
 
-Mapa používá knihovnu Leaflet uloženou v `assets/leaflet/` a mapové podklady OpenStreetMap / CARTO.
+Mapa používá knihovnu Leaflet uloženou v `assets/leaflet/` a mapové podklady OpenStreetMap (bez API klíče).
 
 ## Struktura
 
